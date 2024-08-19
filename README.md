@@ -19,6 +19,8 @@ cd basic-fact-checker
 npm i
 ```
 
+> create a `.env` file and copy the contents of `.env.example` into it.
+
 - setup database and base project
 
 ```bash
