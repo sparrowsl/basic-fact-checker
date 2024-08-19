@@ -27,6 +27,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@prisma/client": "^5.18.0"
+		"@prisma/client": "^5.18.0",
+		"svelte-sonner": "^0.3.27"
 	}
 }
