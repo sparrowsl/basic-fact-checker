@@ -11,12 +11,11 @@
 		"setup": "prisma db push"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-auto": "^3.0.0",
+		"@sveltejs/adapter-node": "^5.2.2",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
 		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.14",
-		"@types/better-sqlite3": "^7.6.10",
 		"autoprefixer": "^10.4.20",
 		"prisma": "^5.18.0",
 		"svelte": "^4.2.7",
