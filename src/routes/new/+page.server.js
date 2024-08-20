@@ -12,13 +12,18 @@ export async function load({ locals }) {
 
 /** @type {import('./$types').Actions} */
 export const actions = {
-	default: async ({ request }) => {
-		const form = /** @type {{text: string, link: string}} */ (
-			Object.fromEntries(await request.formData())
-		);
+	default: async ({ request, locals }) => {
+		const form = Object.fromEntries(await request.formData());
 
 		try {
-			await db.fact.create({ data: form });
+			await db.fact.create({
+				data: {
+					link: String(form.link),
+					title: String(form.title),
+					summary: String(form.summary),
+					userId: locals.user.id,
+				},
+			});
 		} catch (/** @type {*} */ error) {
 			console.log({ error });
 			return fail(400, { message: error.message });

@@ -4,7 +4,7 @@
 	import Header from "./Header.svelte";
 </script>
 
-<Toaster richColors position="top-right" />
+<Toaster richColors closeButton position="top-right" />
 <Header />
 <main class="container mx-auto">
 	<slot></slot>

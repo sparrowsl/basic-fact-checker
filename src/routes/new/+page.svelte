@@ -6,7 +6,6 @@
 
 <section class="min-h-[50vh] mt-10 max-w-xl mx-auto">
 	<form
-		action=""
 		method="post"
 		use:enhance={() => {
 			return async ({ result }) => {
@@ -31,16 +30,27 @@
 			</div>
 
 			<div>
-				<label for="link" class="block">
-					link <span class="text-xs">(optional)</span>
-				</label>
+				<label for="link" class="block">link</label>
 				<input
 					type="url"
 					name="link"
 					id="link"
 					placeholder="https://earn.christex.foundation"
 					class="rounded w-full"
+					required
 				/>
+			</div>
+
+			<div>
+				<label for="summary" class="block">
+					summary <span class="text-xs">(optional)</span>
+				</label>
+				<textarea
+					name="summary"
+					id="summary"
+					class="rounded resize-none min-h-28 w-full placeholder:text-gray-400 placeholder:italic"
+					placeholder="learn, earn and enjoy your craft..."
+				></textarea>
 			</div>
 
 			<Button class="text-white !bg-black">Share fact</Button>
