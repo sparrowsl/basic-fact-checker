@@ -1,5 +1,5 @@
 import db from "$lib/prisma.js";
-import { redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { toast } from "svelte-sonner";
 
 /** @type {import('./$types').Actions} */
@@ -16,7 +16,7 @@ export const actions = {
 		});
 		// TODO: hash password using bcrypt or argon
 		if (!user || user.password !== form.password) {
-			return { error: "Invalid username or password!!" };
+			return fail(400, { message: "Invalid username or password!!" });
 		}
 
 		// TODO: remove the password from the token

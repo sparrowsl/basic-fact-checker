@@ -1,5 +1,5 @@
 import db from "$lib/prisma.js";
-import { redirect } from "@sveltejs/kit";
+import { fail, redirect } from "@sveltejs/kit";
 import { toast } from "svelte-sonner";
 
 /** @type {import('./$types').Actions} */
@@ -16,16 +16,19 @@ export const actions = {
 			where: { username: form.username },
 		});
 		if (usernameExists) {
-			return { error: "Username already exists!!" };
+			return fail(400, { message: "username already taken!!" });
 		}
 
-		const user = await db.user.create({ data: form }).catch((error) => {
-			console.log(error.message);
-			return { error: error.message };
-		});
+		try {
+			const user = await db.user.create({ data: form });
 
-		cookies.set("user", JSON.stringify(user), { path: "/" });
-		toast.success("User created successfully");
-		redirect(307, "/");
+			cookies.set("user", JSON.stringify(user), { path: "/" });
+			toast.success("User created successfully");
+
+			return redirect(307, "/");
+		} catch (/** @type {*} */ error) {
+			console.log(error.message);
+			return fail(400, { message: error.message });
+		}
 	},
 };

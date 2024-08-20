@@ -9,11 +9,11 @@
 		method="post"
 		use:enhance={() => {
 			return async ({ result }) => {
-				if (result.data?.error) {
-					toast.error(result.data?.error);
+				if (result.type === "failure") {
+					toast.error(String(result.data?.message));
+				} else {
+					await applyAction(result);
 				}
-
-				await applyAction(result);
 			};
 		}}
 	>

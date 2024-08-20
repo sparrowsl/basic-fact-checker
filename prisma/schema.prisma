@@ -21,7 +21,7 @@ model Fact {
   text     String
   link     String?
   votes    Int     @default(0)
-  votersId String // an array of users ID - sqlite doesn't support arrays
+  votersId String? // an array of users ID - sqlite doesn't support arrays
 
   @@map("facts")
 }

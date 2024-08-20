@@ -1,5 +1,6 @@
 <script>
 	import { applyAction, enhance } from "$app/forms";
+	import { goto } from "$app/navigation";
 	import Button from "$lib/components/Button.svelte";
 	import { toast } from "svelte-sonner";
 </script>
@@ -9,11 +10,14 @@
 		method="post"
 		use:enhance={() => {
 			return async ({ result }) => {
-				if (result.data?.error) {
-					toast.error(result.data?.error);
+				console.log(result);
+				if (result.type === "failure") {
+					toast.error(String(result.data?.message));
+				} else if (result.type === "redirect") {
+					goto(result.location);
+				} else {
+					await applyAction(result);
 				}
-
-				await applyAction(result);
 			};
 		}}
 	>
