@@ -17,6 +17,8 @@
 			};
 		}}
 	>
+		<legend class="font-bold text-xl text-center mb-2">Login</legend>
+
 		<fieldset class="grid gap-4">
 			<div>
 				<label class="block" for="username">Username</label>

@@ -12,6 +12,7 @@ model User {
   name     String
   username String @unique
   password String
+  facts    Fact[]
 
   @@map("users")
 }
@@ -19,9 +20,11 @@ model User {
 model Fact {
   id       String  @id @unique @default(cuid())
   text     String
-  link     String?
+  link     String
   votes    Int     @default(0)
-  votersId String? // an array of users ID - sqlite doesn't support arrays
+  votersId String? @map("voters_id") // an array of users ID - sqlite doesn't support arrays
+  user     User?   @relation(fields: [userId], references: [id])
+  userId   String? @map("user_id")
 
   @@map("facts")
 }
