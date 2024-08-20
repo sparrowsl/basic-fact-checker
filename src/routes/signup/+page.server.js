@@ -1,6 +1,5 @@
 import db from "$lib/prisma.js";
 import { fail, redirect } from "@sveltejs/kit";
-import { toast } from "svelte-sonner";
 
 /** @type {import('./$types').Actions} */
 export const actions = {
@@ -22,13 +21,12 @@ export const actions = {
 		try {
 			const user = await db.user.create({ data: form });
 
-			cookies.set("user", JSON.stringify(user), { path: "/" });
-			toast.success("User created successfully");
-
-			return redirect(307, "/");
+			cookies.set("user", JSON.stringify(user), { path: "/", secure: true });
 		} catch (/** @type {*} */ error) {
 			console.log(error.message);
 			return fail(400, { message: error.message });
 		}
+
+		redirect(307, "/");
 	},
 };
