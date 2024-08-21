@@ -17,10 +17,12 @@ export async function load({ locals }) {
 
 	// converts all the voters id to array of strings
 	// since sqlite doesnt support arrays
-	// biome-ignore lint/complexity/noForEach: <explanation>
-	facts.forEach((fact) => fact.votersId?.split(","));
+	const tempFacts = facts.map((fact) => ({
+		...fact,
+		votersId: fact.votersId?.split(","),
+	}));
 
-	return { user: locals.user, facts };
+	return { user: locals.user, facts: tempFacts };
 }
 
 /** @type {import('./$types').Actions} */
