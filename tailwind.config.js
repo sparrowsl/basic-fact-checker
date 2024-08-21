@@ -1,4 +1,4 @@
-// import daisyui from "daisyui";
+import daisyui from "daisyui";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,13 +8,13 @@ export default {
 		extend: {},
 	},
 
-	// daisyui: {
-	// 	themes: ["light"],
-	// },
+	daisyui: {
+		themes: ["light"],
+	},
 
 	plugins: [
 		require("@tailwindcss/typography"),
 		require("@tailwindcss/forms"),
-		// daisyui,
+		daisyui,
 	],
 };

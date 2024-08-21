@@ -22,3 +22,16 @@ export async function load({ locals }) {
 
 	return { user: locals.user, facts };
 }
+
+/** @type {import('./$types').Actions} */
+export const actions = {
+	voteTrue: async ({ request, locals }) => {
+		const { factId } = Object.fromEntries(await request.formData());
+
+		console.log(locals.user);
+
+		// get the fact first, to update the voters id
+		const fact = await db.fact.findUnique({ where: { id: String(factId) } });
+		console.log("fact", fact);
+	},
+};

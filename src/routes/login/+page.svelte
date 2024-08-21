@@ -1,12 +1,13 @@
 <script>
 	import { applyAction, enhance } from "$app/forms";
-	import Button from "$lib/components/Button.svelte";
+	import Icon from "@iconify/svelte";
 	import { toast } from "svelte-sonner";
 </script>
 
 <section class="min-h-[50vh] grid place-content-center">
 	<form
 		method="post"
+		class="shadow-xl p-14 rounded"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === "failure") {
@@ -20,29 +21,28 @@
 		<legend class="font-bold text-xl text-center mb-2">Login</legend>
 
 		<fieldset class="grid gap-4">
-			<div>
-				<label class="block" for="username">Username</label>
+			<label class="input input-bordered flex items-center gap-2">
+				<Icon icon="mdi:person" />
 				<input
 					type="text"
-					class="block"
+					class="grow input border-0"
+					placeholder="Username"
 					name="username"
-					id="username"
 					required
 				/>
-			</div>
+			</label>
 
-			<div>
-				<label class="block" for="password">Password</label>
+			<label class="input input-bordered flex items-center gap-2">
+				<Icon icon="mdi:key" />
 				<input
 					type="password"
-					class="block"
+					class="grow input border-0"
 					name="password"
-					id="password"
 					required
 				/>
-			</div>
+			</label>
 
-			<Button>Login</Button>
+			<button type="submit" class="btn btn-accent">Login</button>
 		</fieldset>
 	</form>
 </section>

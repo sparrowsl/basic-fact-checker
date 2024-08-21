@@ -5,25 +5,38 @@
 	$: user = $page.data.user;
 </script>
 
-<header class="container mx-auto sticky top-0 bg-white">
-	<nav class="py-5 flex items-center justify-between">
+<header class="sticky top-0 bg-white shadow py-3">
+	<div class="navbar bg-base-100 container mx-auto">
+		<div class="navbar-start">
+			<a href="/" class="btn btn-ghost text-xl">BFC</a>
+		</div>
 		{#if user}
-			<h3 class="capitalize">Welcome back {user.name || user.username}</h3>
+			<div class="navbar-center hidden lg:flex">
+				<ul class="menu menu-horizontal px-1">
+					<h3 class="capitalize">
+						Welcome back, {user?.name || user?.username}
+					</h3>
+				</ul>
+			</div>
 		{/if}
+		<div class="navbar-end gap-5">
+			<a href="/">Home</a>
 
-		<ul class="flex items-center justify-center gap-5 ml-auto">
-			<li><a href="/">Home</a></li>
-			{#if !user}
-				<li><a href="/login">Login</a></li>
-				<li><a href="/signup">Signup</a></li>
+			{#if user}
+				<a href="/new" class="btn btn-sm">New Fact</a>
+
+				<form
+					action="/logout"
+					method="post"
+					class="btn btn-sm btn-error"
+					use:enhance
+				>
+					<button type="submit">logout</button>
+				</form>
 			{:else}
-				<li><a href="/new">New Fact</a></li>
-				<li>
-					<form action="/logout" method="post" use:enhance>
-						<button type="submit">logout</button>
-					</form>
-				</li>
+				<a href="/login" class="btn btn-accent btn-sm">Login</a>
+				<a href="/signup" class="btn btn-sm">Signup</a>
 			{/if}
-		</ul>
-	</nav>
+		</div>
+	</div>
 </header>

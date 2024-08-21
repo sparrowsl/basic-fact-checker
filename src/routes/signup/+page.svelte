@@ -1,12 +1,13 @@
 <script>
 	import { applyAction, enhance } from "$app/forms";
-	import Button from "$lib/components/Button.svelte";
+	import Icon from "@iconify/svelte";
 	import { toast } from "svelte-sonner";
 </script>
 
-<section class="min-h-[50vh] grid place-content-center">
+<section class="min-h-[65vh] grid place-content-center">
 	<form
 		method="post"
+		class="shadow-xl p-14 rounded"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === "failure") {
@@ -18,36 +19,41 @@
 		}}
 	>
 		<legend class="font-bold text-xl text-center mb-2">Register Account</legend>
-		<fieldset class="grid gap-4">
-			<div>
-				<label class="block" for="name">Name</label>
-				<input type="text" class="block" name="name" id="name" />
-			</div>
 
-			<div>
-				<label class="block" for="username">Username</label>
+		<fieldset class="grid gap-4">
+			<label class="input input-bordered flex items-center gap-2">
+				<Icon icon="wpf:name" />
 				<input
 					type="text"
-					class="block"
-					name="username"
-					id="username"
+					class="grow input border-0"
+					placeholder="Name"
+					name="name"
 					required
 				/>
-			</div>
+			</label>
 
-			<div>
-				<label class="block" for="password">Password</label>
+			<label class="input input-bordered flex items-center gap-2">
+				<Icon icon="mdi:person" />
+				<input
+					type="text"
+					class="grow input border-0"
+					placeholder="Username"
+					name="username"
+					required
+				/>
+			</label>
+
+			<label class="input input-bordered flex items-center gap-2">
+				<Icon icon="mdi:key" />
 				<input
 					type="password"
-					class="block"
+					class="grow input border-0"
 					name="password"
-					id="password"
 					required
-					minlength="4"
 				/>
-			</div>
+			</label>
 
-			<Button>Signup</Button>
+			<button type="submit" class="btn btn-accent">Signup</button>
 		</fieldset>
 	</form>
 </section>

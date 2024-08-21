@@ -1,12 +1,13 @@
 <script>
 	import { applyAction, enhance } from "$app/forms";
-	import Button from "$lib/components/Button.svelte";
+	import Icon from "@iconify/svelte";
 	import { toast } from "svelte-sonner";
 </script>
 
 <section class="min-h-[50vh] mt-10 max-w-xl mx-auto">
 	<form
 		method="post"
+		class="shadow-xl p-14 rounded"
 		use:enhance={() => {
 			return async ({ result }) => {
 				if (result.type === "failure") {
@@ -18,42 +19,50 @@
 		}}
 	>
 		<fieldset class="grid gap-5">
-			<div>
-				<label for="title" class="block">Info</label>
-				<input
-					name="title"
-					id="title"
-					class="block rounded text-sm w-full"
-					required
-					placeholder="Christex foundation just dropped a bounty"
-				/>
+			<div class="form-control w-full">
+				<span class="label label-text">News Title</span>
+				<label class="input input-bordered flex items-center gap-2">
+					<Icon icon="mdi:lead-pencil" />
+					<input
+						type="text"
+						class="grow input border-0"
+						placeholder="Christex foundation just dropped a bounty"
+						name="title"
+						required
+					/>
+				</label>
 			</div>
 
-			<div>
-				<label for="link" class="block">link</label>
-				<input
-					type="url"
-					name="link"
-					id="link"
-					placeholder="https://earn.christex.foundation"
-					class="rounded w-full"
-					required
-				/>
+			<div class="form-control w-full">
+				<span class="label label-text">Source Link</span>
+				<label class="input input-bordered flex items-center gap-2">
+					<Icon icon="mdi:link" />
+					<input
+						type="url"
+						class="grow input border-0"
+						name="link"
+						required
+						placeholder="https://earn.christex.foundation"
+					/>
+				</label>
 			</div>
 
-			<div>
-				<label for="summary" class="block">
-					summary <span class="text-xs">(optional)</span>
+			<div class="form-control w-full">
+				<label class="label label-text !justify-start" for="summary">
+					<Icon icon="mdi:text" class="mr-2" /> Summary
+					<span class="italic text-xs ml-1">(optional)</span>
 				</label>
 				<textarea
-					name="summary"
 					id="summary"
-					class="rounded resize-none min-h-28 w-full placeholder:text-gray-400 placeholder:italic"
+					class="textarea textarea-bordered w-full min-h-28 resize-none"
 					placeholder="learn, earn and enjoy your craft..."
+					name="summary"
 				></textarea>
 			</div>
 
-			<Button class="text-white !bg-black">Share fact</Button>
+			<button type="submit" class="btn btn-success text-white">
+				Share fact
+			</button>
 		</fieldset>
 	</form>
 </section>
