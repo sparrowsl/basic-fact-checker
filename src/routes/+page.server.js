@@ -32,6 +32,34 @@ export const actions = {
 
 		// get the fact first, to update the voters id
 		const fact = await db.fact.findUnique({ where: { id: String(factId) } });
-		console.log("fact", fact);
+		if (!fact) {
+			return;
+		}
+
+		/** @type {string[]} */
+		const voters = [];
+
+		// check if voters already available
+		if (fact.votersId) {
+			// split all the current id to array again.
+			// NOTE: sqlite does not support arrays so I have to do this
+			const tempIds = fact.votersId.split(",");
+			voters.concat(tempIds);
+		}
+
+		// if voters array is empty then add the first voter id
+		voters.push(locals.user?.id);
+
+		// join all voters id back to single string and update the fact vote
+		const updated = await db.fact.update({
+			where: { id: String(factId) },
+			data: {
+				votersId: voters.join(","),
+				// NOTE: race conditions can happen here, but not critical for low traffic app like this
+				votes: fact.votes + 1,
+			},
+		});
+
+		console.log(updated);
 	},
 };
