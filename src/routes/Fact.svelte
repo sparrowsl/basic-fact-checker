@@ -6,7 +6,6 @@
   export let fact;
 
   $: user = $page.data.user;
-  // $: console.log(user, fact);
 </script>
 
 <!-- <div class="shadow-md rounded p-5"> -->
@@ -51,6 +50,7 @@
               type="submit"
               name="factId"
               formmethod="post"
+              formaction="/?/voteFalse"
               value={fact?.id}
               class="bg-error/90 rounded p-2 text-white flex items-center gap-1 font-semibold"
             >
@@ -59,7 +59,7 @@
           </form>
         {:else}
           <div>
-            <p class="badge badge-sm badge-success text-white font-bold italic">
+            <p class="badge badge-sm bg-accent text-white font-bold italic">
               already voted
             </p>
           </div>

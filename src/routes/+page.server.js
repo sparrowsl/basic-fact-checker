@@ -56,17 +56,61 @@ export const actions = {
     // if voters array is empty then add the first voter id
     voters.push(locals.user?.id);
 
-    const updated = await db.fact.update({
-      where: { id: String(factId) },
-      data: {
-        // join all voters id back to single string and update the fact vote
-        votersId: voters.join(","),
-        // update the vote count by one.
-        // NOTE: race conditions can happen here, but not critical for low traffic app like this
-        votes: fact.votes + 1,
-      },
-    });
+    try {
+      const updated = await db.fact.update({
+        where: { id: String(factId) },
+        data: {
+          // join all voters id back to single string and update the fact vote
+          votersId: voters.join(","),
+          // update the vote count by one.
+          // NOTE: race conditions can happen here, but not critical for low traffic app like this
+          votes: fact.votes + 1,
+        },
+      });
+      console.log("True Vote:", updated);
+    } catch (_e) {
+      console.log(_e);
+    }
+  },
 
-    console.log(updated);
+  voteFalse: async ({ request, locals }) => {
+    const { factId } = Object.fromEntries(await request.formData());
+
+    // get the fact first, to update the voters id
+    const fact = await db.fact.findUnique({ where: { id: String(factId) } });
+    if (!fact) {
+      return;
+    }
+
+    /** @type {string[]} */
+    let voters = [];
+
+    // check if voters already available
+    if (fact.votersId) {
+      // split all the current id to array again.
+      // NOTE: sqlite does not support arrays so I have to do this
+      const tempIds = fact.votersId.split(",");
+      voters = voters.concat(tempIds);
+    }
+
+    // if voters array is empty then add the first voter id
+    voters.push(locals.user?.id);
+
+    try {
+      const updated = await db.fact.update({
+        where: { id: String(factId) },
+        data: {
+          // join all voters id back to single string and update the fact vote
+          votersId: voters.join(","),
+          // reduce the vote count by one.
+          // NOTE: race conditions can happen here, but not critical for low traffic app like this
+          votes: fact.votes > 0 ? fact.votes - 1 : 0,
+        },
+      });
+
+      console.log("False Vote:", updated);
+    } catch (_e) {
+      console.log(_e);
+    }
   },
 };
