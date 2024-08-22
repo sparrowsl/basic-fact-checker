@@ -91,7 +91,7 @@ export const actions = {
           votes: fact.votes + 1,
         },
       });
-      console.log("True Vote:", updated);
+      // console.log("True Vote:", updated);
     } catch (_e) {
       console.log(_e);
     }
@@ -132,7 +132,7 @@ export const actions = {
         },
       });
 
-      console.log("False Vote:", updated);
+      // console.log("False Vote:", updated);
     } catch (_e) {
       console.log(_e);
     }
