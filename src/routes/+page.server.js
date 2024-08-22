@@ -36,8 +36,6 @@ export const actions = {
   voteTrue: async ({ request, locals }) => {
     const { factId } = Object.fromEntries(await request.formData());
 
-    console.log(locals.user);
-
     // get the fact first, to update the voters id
     const fact = await db.fact.findUnique({ where: { id: String(factId) } });
     if (!fact) {
@@ -45,24 +43,25 @@ export const actions = {
     }
 
     /** @type {string[]} */
-    const voters = [];
+    let voters = [];
 
     // check if voters already available
     if (fact.votersId) {
       // split all the current id to array again.
       // NOTE: sqlite does not support arrays so I have to do this
       const tempIds = fact.votersId.split(",");
-      voters.concat(tempIds);
+      voters = voters.concat(tempIds);
     }
 
     // if voters array is empty then add the first voter id
     voters.push(locals.user?.id);
 
-    // join all voters id back to single string and update the fact vote
     const updated = await db.fact.update({
       where: { id: String(factId) },
       data: {
+        // join all voters id back to single string and update the fact vote
         votersId: voters.join(","),
+        // update the vote count by one.
         // NOTE: race conditions can happen here, but not critical for low traffic app like this
         votes: fact.votes + 1,
       },
