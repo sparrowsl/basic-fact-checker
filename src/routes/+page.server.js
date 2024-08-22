@@ -16,6 +16,21 @@ export async function load({ locals }) {
     },
   });
 
+  async function topFacts() {
+    return db.fact.findMany({
+      orderBy: {
+        votes: "desc",
+      },
+      take: 5,
+      select: {
+        id: true,
+        link: true,
+        title: true,
+        votes: true,
+      },
+    });
+  }
+
   // converts all the voters id to array of strings
   // since sqlite doesnt support arrays
   const tempFacts = facts.map((fact) => ({
@@ -23,7 +38,11 @@ export async function load({ locals }) {
     votersId: fact.votersId?.split(","),
   }));
 
-  return { user: locals.user, facts: tempFacts };
+  return {
+    user: locals.user,
+    facts: tempFacts,
+    topFacts: topFacts(),
+  };
 }
 
 /** @type {import('./$types').Actions} */
