@@ -1,6 +1,9 @@
 import db from "$lib/prisma.js";
 import { fail, redirect } from "@sveltejs/kit";
 import * as v from "valibot";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { JWT_SECRET_KEY } from "$env/static/private";
 
 const signupSchema = v.object({
   name: v.pipe(
@@ -47,9 +50,24 @@ export const actions = {
     }
 
     try {
-      const user = await db.user.create({ data: output });
+      // hash user password
+      const hashedPassword = await bcrypt.hash(output.password, 12);
 
-      cookies.set("user", JSON.stringify(user), { path: "/", secure: true });
+      const user = await db.user.create({
+        data: {
+          name: output.name,
+          username: output.username,
+          password: hashedPassword,
+        },
+        omit: {
+          password: true,
+        },
+      });
+
+      // JWT the user info
+      const payload = jwt.sign(user, JWT_SECRET_KEY);
+
+      cookies.set("user", payload, { path: "/", secure: true });
     } catch (/** @type {*} */ error) {
       console.log(error.message);
       return fail(400, { message: error.message });
