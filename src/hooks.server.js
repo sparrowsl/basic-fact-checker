@@ -1,13 +1,23 @@
+import { JWT_SECRET_KEY } from "$env/static/private";
+import jwt from "jsonwebtoken";
+
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
-	const userCookie = event.cookies.get("user");
+  const cookie = event.cookies.get("user");
 
-	if (!userCookie) {
-		return await resolve(event);
-	}
+  if (!cookie) {
+    return await resolve(event);
+  }
 
-	const user = JSON.parse(userCookie);
-	event.locals.user = user;
+  // unsign the JWT cookie payload to user object
+  const payload = jwt.verify(cookie, JWT_SECRET_KEY);
 
-	return await resolve(event);
+  try {
+    event.locals.user = JSON.parse(String(payload));
+  } catch (/** @type {*} */ _e) {
+    console.log("could not parse JWT payload");
+    console.log(_e.message);
+  }
+
+  return await resolve(event);
 }
