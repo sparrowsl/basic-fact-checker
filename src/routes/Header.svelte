@@ -26,7 +26,7 @@
 				<a href="/new" class="btn btn-sm">New Fact</a>
 
 				<form
-					action="/logout"
+					action="/?/logout"
 					method="post"
 					class="btn btn-sm btn-error"
 					use:enhance

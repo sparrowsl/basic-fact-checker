@@ -6,7 +6,6 @@
 	export let fact;
 
 	$: user = $page.data.user;
-	console.log(fact);
 </script>
 
 <!-- <div class="shadow-md rounded p-5"> -->
@@ -26,7 +25,7 @@
 				<Icon icon="mdi:heart" class="text-2xl text-accent" />
 			</span>
 
-			{#if !fact.votersId.includes(user.id)}
+			{#if !fact.votersId.includes(user?.id)}
 				<form method="post" class="text-sm flex gap-5" use:enhance>
 					<!-- Button to vote true -->
 					<button
