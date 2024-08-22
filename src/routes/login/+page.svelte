@@ -1,5 +1,6 @@
 <script>
 	import { applyAction, enhance } from "$app/forms";
+	import { goto } from "$app/navigation";
 	import Icon from "@iconify/svelte";
 	import { toast } from "svelte-sonner";
 </script>
@@ -12,6 +13,9 @@
 			return async ({ result }) => {
 				if (result.type === "failure") {
 					toast.error(String(result.data?.message));
+				} else if (result.type === "redirect") {
+					toast.success("login successfull");
+					goto(result.location);
 				} else {
 					await applyAction(result);
 				}
