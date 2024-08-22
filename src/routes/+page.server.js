@@ -18,6 +18,11 @@ export async function load({ locals }) {
 
   async function topFacts() {
     return db.fact.findMany({
+      where: {
+        votes: {
+          gt: 0,
+        },
+      },
       orderBy: {
         votes: "desc",
       },

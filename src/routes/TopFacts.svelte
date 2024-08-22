@@ -1,7 +1,6 @@
 <script>
   /** @type {{id: string, link: string, title: string, votes: number}[]} */
   export let facts = [];
-  console.log(facts);
 </script>
 
 <aside class="hidden lg:block shadow p-5 mt-10 max-w-64 -ml-20 h-fit">
@@ -17,6 +16,10 @@
           <span>{fact.votes} votes</span>
         </p>
       </div>
+    {:else}
+      <p class="text-sm italic p-2 text-gray-400">
+        no fact has been voted yet!!
+      </p>
     {/each}
   </section>
 </aside>
