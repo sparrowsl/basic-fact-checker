@@ -1,52 +1,65 @@
 <script>
-	import { applyAction, enhance } from "$app/forms";
-	import { goto } from "$app/navigation";
-	import Icon from "@iconify/svelte";
-	import { toast } from "svelte-sonner";
+  import { applyAction, enhance } from "$app/forms";
+  import Icon from "@iconify/svelte";
+  import { toast } from "svelte-sonner";
+
+  let loading = false;
 </script>
 
 <section class="min-h-[50vh] grid place-content-center">
-	<form
-		method="post"
-		class="shadow-xl p-14 rounded"
-		use:enhance={() => {
-			return async ({ result }) => {
-				if (result.type === "failure") {
-					toast.error(String(result.data?.message));
-				} else if (result.type === "redirect") {
-					toast.success("login successfull");
-					goto(result.location);
-				} else {
-					await applyAction(result);
-				}
-			};
-		}}
-	>
-		<legend class="font-bold text-xl text-center mb-2">Login</legend>
+  <form
+    method="post"
+    class="shadow-xl p-14 rounded"
+    use:enhance={() => {
+      // show loading spinner when form is submitted
+      loading = true;
 
-		<fieldset class="grid gap-4">
-			<label class="input input-bordered flex items-center gap-2">
-				<Icon icon="mdi:person" />
-				<input
-					type="text"
-					class="grow input border-0"
-					placeholder="Username"
-					name="username"
-					required
-				/>
-			</label>
+      return async ({ result }) => {
+        if (result.type === "failure") {
+          toast.error(String(result.data?.message));
+        } else {
+          await applyAction(result);
+        }
 
-			<label class="input input-bordered flex items-center gap-2">
-				<Icon icon="mdi:key" />
-				<input
-					type="password"
-					class="grow input border-0"
-					name="password"
-					required
-				/>
-			</label>
+        // hide the spinner after form has been submitted
+        loading = false;
+      };
+    }}
+  >
+    <legend class="font-bold text-xl text-center mb-2">Login</legend>
 
-			<button type="submit" class="btn btn-accent">Login</button>
-		</fieldset>
-	</form>
+    <fieldset class="grid gap-4">
+      <label class="input input-bordered flex items-center gap-2">
+        <Icon icon="mdi:person" />
+        <input
+          type="text"
+          class="grow input border-0"
+          placeholder="Username"
+          name="username"
+          required
+        />
+      </label>
+
+      <label class="input input-bordered flex items-center gap-2">
+        <Icon icon="mdi:key" />
+        <input
+          type="password"
+          class="grow input border-0"
+          name="password"
+          required
+        />
+      </label>
+
+      <button
+        type="submit"
+        class="btn btn-accent disabled:btn-disabled"
+        disabled={loading}
+      >
+        {#if loading}
+          <span class="loading loading-spinner loading-xs"></span>
+        {/if}
+        Login
+      </button>
+    </fieldset>
+  </form>
 </section>

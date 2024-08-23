@@ -2,6 +2,10 @@
 
 A platform where users can post facts or news, and others can vote on their authenticity.
 
+[Live URL](https://basic-fact-checker.onrender.com)
+
+> Warning: the app might load slow due to render.com or the database might be missing due to render not supporting sqlite databases for too long
+
 ## Running the project locally
 
 - clone the repo
