@@ -11,14 +11,14 @@
 <!-- <div class="shadow-md rounded p-5"> -->
 <div class="card bg-base-100 shadow-xl">
   <div class="card-body">
-    <h2 class="card-title">{fact?.title}</h2>
+    <h2 class="card-title !text-lg">{fact?.title}</h2>
     <p class="flex items-center gap-2">
-      <Icon icon="mdi:link" class="text-xl" />Source:
       <a href={fact?.link} class="btn-link">{fact?.link}</a>
+      <Icon icon="mdi:link" class="text-xl" />
     </p>
-    <p>{fact?.summary}</p>
+    <p class="text-sm">{fact?.summary}</p>
     {#if fact?.user?.id === user?.id}
-      <p class="text-sm italic -mt-2">Shared by: You</p>
+      <p class="text-sm italic -mt-1">Shared by: You</p>
     {:else}
       <p class="text-sm italic -mt-2">Shared by: {fact?.user?.name}</p>
     {/if}
